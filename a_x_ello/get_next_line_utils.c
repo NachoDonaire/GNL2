@@ -69,16 +69,10 @@ static char	*cncat(const char *s1, const char *s2)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		i;
-	int		y;
-	int		z;
 	char	*x;
 
 	if (s1 && s2)
 	{
-		i = lens(s1);
-		z = 0;
-		y = lens(s2);
 		x = cncat(s1, s2);
 		return (x);
 	}
