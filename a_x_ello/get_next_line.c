@@ -49,6 +49,7 @@ char	*lecture(char *buff, int fd)
 	while (lec > 0)
 	{
 		lec = read(fd, sol, BUFFER_SIZE);
+        //printf("--%s--", sol);
 		if (lec < 0)
 		{
           printf("hola?");
@@ -57,11 +58,13 @@ char	*lecture(char *buff, int fd)
 		}
         sol[lec] = '\0';
         //if (lec != 0)
-          buff = join(buff, sol);
+        buff = join(buff, sol);
+         // printf("--%s--", buff);
 		if (find_nl(sol))
 			break ;
 	}
-    //printf("--%s--", sol);
+    free(sol);
+    //printf("--%s--", buff);
 	return (buff);
 }
 
@@ -72,10 +75,13 @@ char	*the_line(char *buff)
 
 	i = 0;
     if (!buff[i])
+    {
+      printf("uno");
       return (NULL);
+    }
 	while (buff[i] && buff[i] != '\n')
 		i++;
-	sol = ft_calloc((i + 1) , sizeof(char));
+	sol = ft_calloc((i + 2) , sizeof(char));
 	i = 0;
 	while (buff[i] && buff[i] != '\n')
 	{
@@ -83,7 +89,10 @@ char	*the_line(char *buff)
 		i++;
 	}
 	if (buff[i] &&  buff[i] == '\n')
+    {
+      //printf("aqui?");
 		sol[i] = buff[i];
+    }
 	i++;
 	sol[i] = '\0';
 	return (sol);
@@ -96,26 +105,39 @@ char	*next_line(char *buff)
 	int y;
 
 	i = 0;
-	y = 0;
+	y = 0;/*
+    if (buff[i] == '\n')
+    {
+      sol = malloc(sizeof(char) * 3);
+      sol[y++] = buff[i];
+      sol[y] = '\0';
+      free(buff);
+      return (sol);
+    }*/
 	while (buff[i] && buff[i] != '\n')
 		i++;
 	if (buff[i] == '\0')
     {
       free(buff);
+      printf("do");
 		return (NULL);
     }
+    else if(buff[i] == '\n')
+      i++;
 	sol = ft_calloc(i + 1, sizeof(char));
-	if (buff[i] == '\n')
-		i++;
-	while(buff[i] &&  buff[i] != '\n')
+	while(buff[i])
 	{
 		sol[y] = buff[i];
 		y++;
 		i++;
 	}
-	if (buff[i] && buff[i] == '\n')
-		sol[y] = buff[i];
+	/*if (buff[i] && buff[i] == '\n')
+    {
+     // printf("aqui");
+		sol[y++] = buff[i];
+    }*/
 	sol[y] = '\0';
+    //printf("--sol: %s--", sol);
 	free(buff);
 	return (sol);
 }
@@ -138,7 +160,11 @@ char	*get_next_line(int fd)
       return (NULL);
     }
 	sol = the_line(buff);
+    
+    //printf("--buff: %s--", buff);
 	buff = next_line(buff);
+  
+    //printf("--%s--", buff);
     //printf("-%s--", buff);
 	return (sol);
 }
@@ -151,14 +177,14 @@ int main()
     char *s;
 	char *s2;
   char *s3;
-//char *s4 ;
-//char *s5;
-//	char *s6;
-//	char *s7;
+char *s4 ;
+char *s5;
+char *s6;
+	char *s7;
 //	char *s8;
 //	char *s9;
 
-    fd = open("41_no_nl", O_RDONLY);
+    fd = open("multiple_nlx5", O_RDONLY);
   s = get_next_line(fd);
    printf("%s", s);
   s2 = get_next_line(fd);
@@ -168,18 +194,18 @@ int main()
 
    //y = n_char_fd(fd);
    //printf("%d", y);
- //s4 = get_next_line(fd);
- //printf("%s", s4);
- //s5 = get_next_line(fd);
- //printf("%s", s5);
+ s4 = get_next_line(fd);
+ printf("%s", s4);
+ s5 = get_next_line(fd);
+ printf("%s", s5);
 
-//s6 = get_next_line(fd);
- //s7 = get_next_line(fd);
+s6 = get_next_line(fd);
+ s7 = get_next_line(fd);
  //s8 = get_next_line(fd);
  //s9 = get_next_line(fd);
 
- //printf("%s", s6);
- //printf("%s", s7);
+ printf("%s", s6);
+ printf("%s", s7);
  //printf("%s", s8);
  //printf("%s", s9);
   //system("leaks a.out");
